@@ -34,7 +34,7 @@ php bin/arca doctor
 Clona el repositorio o copia la carpeta donde quieras. Por ejemplo `C:\facturacion\arca_facturacion` o `/opt/arca_facturacion`. Todos los comandos de esta guia se ejecutan **dentro de esa carpeta**.
 
 ~~~bash
-git clone <url-del-repo> arca_facturacion
+git clone https://github.com/MiguelNajdorf/arca-facturacion.git arca_facturacion
 cd arca_facturacion
 ~~~
 
