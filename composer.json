@@ -4,6 +4,7 @@
   "type": "library",
   "license": "MIT",
   "keywords": ["arca", "afip", "argentina", "factura-electronica", "wsaa", "wsfe"],
+  "authors": [{"name": "Javier Ghio"}],
   "require": {
     "php": ">=8.1",
     "ext-json": "*",
