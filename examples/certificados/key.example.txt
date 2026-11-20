@@ -1,0 +1,4 @@
+Nombre sugerido al cargarlo: key.pem
+
+Contenido esperado: clave privada PEM generada localmente junto con el CSR.
+La clave privada nunca se entrega a ARCA ni se agrega al repositorio.

@@ -1,0 +1,31 @@
+{
+  "name": "arca-facturacion/arca-facturacion",
+  "description": "Integracion guiada y segura de facturacion electronica ARCA para PHP.",
+  "type": "library",
+  "license": "MIT",
+  "keywords": ["arca", "afip", "argentina", "factura-electronica", "wsaa", "wsfe"],
+  "require": {
+    "php": ">=8.1",
+    "ext-json": "*",
+    "ext-openssl": "*",
+    "ext-pdo": "*",
+    "ext-pdo_sqlite": "*",
+    "ext-simplexml": "*",
+    "ext-soap": "*"
+  },
+  "require-dev": {"phpstan/phpstan": "^1.12", "phpunit/phpunit": "^10.5"},
+  "autoload": {"psr-4": {"ArcaFacturacion\\": "src/"}},
+  "autoload-dev": {"psr-4": {"ArcaFacturacion\\Tests\\": "tests/"}},
+  "bin": ["bin/arca"],
+  "scripts": {
+    "lint": "@php bin/lint.php",
+    "test": "phpunit",
+    "test:local": "@php tests/run.php",
+    "analyse": "phpstan analyse --memory-limit=512M",
+    "security": "@php bin/security-check.php",
+    "check": ["@lint", "@test", "@analyse", "@security"]
+  },
+  "config": {"sort-packages": true, "allow-plugins": false},
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}

@@ -1,0 +1,22 @@
+name: Reportar un error
+description: Error reproducible sin datos fiscales sensibles
+body:
+  - type: textarea
+    attributes:
+      label: Descripcion
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Reproduccion minima
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: PHP y sistema operativo
+  - type: checkboxes
+    attributes:
+      label: Seguridad
+      options:
+        - label: Confirme que no adjunte claves, certificados, CUIT, tokens ni respuestas productivas.
+          required: true

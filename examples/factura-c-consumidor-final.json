@@ -1,0 +1,16 @@
+{
+  "idempotency_key": "venta-2026-000001",
+  "voucher_type": 11,
+  "concept": 1,
+  "document_type": 99,
+  "document_number": "0",
+  "receiver_vat_condition": 5,
+  "total": 12100.00,
+  "net": 12100.00,
+  "untaxed": 0,
+  "exempt": 0,
+  "vat": 0,
+  "taxes": 0,
+  "currency": "PES",
+  "exchange_rate": 1
+}

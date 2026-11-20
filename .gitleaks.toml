@@ -1,0 +1,4 @@
+title = "arca_facturacion secret scanning"
+
+[extend]
+useDefault = true

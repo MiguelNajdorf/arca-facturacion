@@ -1,0 +1,4 @@
+Nombre sugerido al cargarlo: cert.pem
+
+Contenido esperado: certificado X.509 en formato PEM descargado de ARCA.
+No pegues un certificado real dentro de un archivo versionado.

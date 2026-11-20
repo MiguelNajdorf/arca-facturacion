@@ -1,0 +1,11 @@
+name: Proponer una mejora
+description: Nueva capacidad alineada con una integracion simple y segura
+body:
+  - type: textarea
+    attributes:
+      label: Problema que resuelve
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: API o experiencia propuesta
