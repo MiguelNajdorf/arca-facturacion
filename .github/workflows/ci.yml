@@ -15,7 +15,7 @@ jobs:
       - uses: shivammathur/setup-php@e8d43d139fbfbe401c32ef3a3a32e14075f20122 # v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: soap, openssl, simplexml, pdo_sqlite, sqlite3
+          extensions: soap, openssl, simplexml, pdo_sqlite, sqlite3, gd, mbstring, zlib
           coverage: none
       - run: composer install --no-interaction --prefer-dist
       - run: composer check

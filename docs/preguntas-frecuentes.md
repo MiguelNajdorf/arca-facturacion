@@ -22,11 +22,10 @@ No. SQLite almacena datos operativos resumidos, nunca claves, certificados, tick
 
 ## Genera el PDF o QR?
 
-No. Devuelve los datos autorizados para que tu sistema genere la representacion que corresponda.
+Si. `$arca->pdf()` arma la factura en A4 con el QR obligatorio y `$arca->urlQr()` da solo el texto del QR. Ver [PDF y QR](pdf.md).
 
 ## Que no incluye todavia?
 
-- PDF y QR de la factura impresa.
 - CAEA (CAE anticipado).
 - Regimenes especiales fuera de WSFEv1, como exportacion o bonos fiscales.
 - Libro IVA y contabilidad.

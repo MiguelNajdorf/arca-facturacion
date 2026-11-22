@@ -4,6 +4,13 @@ Todos los cambios notables se documentan aqui. El proyecto sigue versionado sema
 
 ## [Unreleased]
 
+### Added
+
+- `$arca->pdf()`: factura A4 con letra y codigo, emisor, receptor, items, totales, CAE y el QR obligatorio de ARCA.
+- `$arca->urlQr()`: texto del QR segun la especificacion oficial de ARCA (version 1).
+- `doctor` revisa las extensiones `gd`, `mbstring` y `zlib` que usa el PDF.
+- Dependencias `chillerlan/php-qrcode` y `setasign/fpdf` (MIT). Facturar sigue funcionando sin Composer; el PDF lo necesita.
+
 ## [0.2.0] - 2026-11-22
 
 ### Added

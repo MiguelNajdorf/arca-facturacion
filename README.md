@@ -11,17 +11,19 @@ Resuelve certificados, autenticacion WSAA, conexion WSFE, numeracion, pedido de 
 1. Pones esta carpeta en tu computadora o servidor, **separada de tu programa**.
 2. Corres el asistente (`php bin/arca install`). Te pide CUIT y punto de venta, genera la clave y te dice que hacer en la web de ARCA.
 3. Desde tu programa cargas esta carpeta y llamas a `emitir()`. Te devuelve el CAE.
+4. Si queres, `pdf()` te arma la factura en PDF con el QR obligatorio de ARCA.
 
 Toda la configuracion, los certificados y el registro de facturas quedan dentro de esta carpeta, en `.env` y `storage/`.
 
 ## Requisitos
 
 - PHP 8.1 o superior, para consola y tambien para el servidor web si tu programa es web.
-- Extensiones de PHP: `soap`, `openssl`, `simplexml`, `json`, `pdo_sqlite`, `sqlite3`.
+- Extensiones de PHP: `soap`, `openssl`, `simplexml`, `json`, `pdo_sqlite`, `sqlite3`. Para el PDF, ademas `gd`, `mbstring` y `zlib`.
+- [Composer](https://getcomposer.org), para instalar las librerias del PDF y el QR.
 - CUIT con clave fiscal para entrar a ARCA.
 - Salida a internet por HTTPS hacia los servidores de ARCA.
 
-No hace falta Composer para usarlo. Solo se necesita para correr los tests (`composer install`). Si no lo instalas, `doctor` muestra una advertencia sobre Composer que podes ignorar.
+Si solo vas a facturar y no necesitas el PDF, podes saltear Composer: el resto funciona sin el.
 
 Para revisar el entorno en cualquier momento:
 
@@ -36,6 +38,7 @@ Clona el repositorio o copia la carpeta donde quieras. Por ejemplo `C:\facturaci
 ~~~bash
 git clone https://github.com/MiguelNajdorf/arca-facturacion.git arca_facturacion
 cd arca_facturacion
+composer install --no-dev
 ~~~
 
 ## Paso 2: configurar en homologacion (pruebas)
@@ -174,6 +177,35 @@ El segundo parametro de `emitir()` es **un identificador unico de la venta en tu
 
 En [examples/](examples/) hay ejemplos listos para correr. Los que emiten estan bloqueados hasta definir `ARCA_EXAMPLE_EMIT=1`.
 
+### PDF con el QR de ARCA
+
+ARCA exige que la factura impresa lleve un codigo QR. Despues de emitir, `pdf()` arma la factura en A4 con letra y codigo, datos del emisor y del receptor, items, totales con el IVA por alicuota, CAE con su vencimiento y el QR:
+
+~~~php
+$resultado = $arca->emitir($factura, 'venta-45821');
+
+if ($resultado->fueAutorizado()) {
+    $pdf = $arca->pdf($factura, $resultado, [
+        'emisor' => [
+            'razon_social' => 'Mi Empresa S.R.L.',
+            'domicilio' => 'Av. Siempreviva 742, Cordoba',
+            'condicion_iva' => 'IVA Responsable Inscripto',
+            'ingresos_brutos' => '901-123456-7',
+            'inicio_actividades' => '2020-03-01',
+        ],
+        'receptor' => ['nombre' => 'Cliente S.A.', 'domicilio' => 'Calle 1 123'],
+        'items' => [
+            ['descripcion' => 'Producto', 'cantidad' => 2, 'precio' => 7500],
+        ],
+    ]);
+    file_put_contents("factura-{$resultado->numeroComprobante()}.pdf", $pdf);
+}
+~~~
+
+Los items tienen que sumar lo que autorizo ARCA (en clase A, sin IVA): si no cierran, `pdf()` avisa en vez de imprimir algo distinto a lo facturado.
+
+Si preferis tu propio diseno, `$arca->urlQr($factura, $resultado)` te da el texto exacto que tiene que llevar el QR. Todo el detalle esta en [docs/pdf.md](docs/pdf.md).
+
 ## Paso 4: pasar a produccion
 
 **No alcanza con cambiar una variable.** Produccion necesita su propia clave, certificado, autorizacion y punto de venta.
@@ -242,7 +274,8 @@ Mas casos en [docs/errores.md](docs/errores.md) y [docs/preguntas-frecuentes.md]
 ## Documentacion
 
 - [Instalacion detallada](docs/instalacion.md), [certificados](docs/certificados.md), [homologacion](docs/homologacion.md) y [produccion](docs/produccion.md)
-- [Facturas C](docs/factura-c.md), [B](docs/factura-b.md) y [notas de credito](docs/notas-de-credito.md)
+- [Facturas C](docs/factura-c.md), [A y B](docs/factura-b.md) y [notas de credito](docs/notas-de-credito.md)
+- [PDF y QR](docs/pdf.md)
 - [Errores](docs/errores.md), [seguridad](docs/seguridad.md) y [persistencia](docs/persistencia.md)
 - [Arquitectura](docs/arquitectura.md)
 

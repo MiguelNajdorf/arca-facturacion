@@ -12,6 +12,8 @@ use ArcaFacturacion\Invoice\Invoice;
 use ArcaFacturacion\Invoice\InvoiceBuilder;
 use ArcaFacturacion\Invoice\InvoiceResult;
 use ArcaFacturacion\Invoice\InvoiceValidator;
+use ArcaFacturacion\Pdf\FacturaPdf;
+use ArcaFacturacion\Pdf\QrArca;
 use ArcaFacturacion\Receipt\ReceiptRepository;
 use ArcaFacturacion\Receipt\SQLiteReceiptRepository;
 use ArcaFacturacion\Support\Logger;
@@ -39,6 +41,13 @@ final class Arca
     public function notaCreditoB(): InvoiceBuilder { return new InvoiceBuilder(8, 'Nota de credito B'); }
     public function notaCreditoC(): InvoiceBuilder { return new InvoiceBuilder(13, 'Nota de credito C'); }
     public function emitir(Invoice|InvoiceBuilder $invoice, string $idempotencyKey): InvoiceResult { return $this->service->issue($invoice instanceof InvoiceBuilder ? $invoice->construir() : $invoice, $idempotencyKey); }
+    /** Texto del QR obligatorio de ARCA, para imprimirlo con tu propio generador. */
+    public function urlQr(Invoice|InvoiceBuilder $invoice, InvoiceResult $result): string { return QrArca::url($invoice instanceof InvoiceBuilder ? $invoice->construir() : $invoice, $result, $this->config->cuit); }
+    /**
+     * PDF A4 del comprobante autorizado, con QR y CAE. Ver FacturaPdf para las claves de $datos.
+     * @param array<string,mixed> $datos
+     */
+    public function pdf(Invoice|InvoiceBuilder $invoice, InvoiceResult $result, array $datos): string { return (new FacturaPdf($this->config->cuit))->generar($invoice instanceof InvoiceBuilder ? $invoice->construir() : $invoice, $result, $datos); }
     /** @return array<string,mixed> */ public function simular(Invoice|InvoiceBuilder $invoice, bool $advanced = false): array { return $this->service->simulate($invoice instanceof InvoiceBuilder ? $invoice->construir() : $invoice, $advanced); }
     public function recuperar(string $operationId): InvoiceResult { return $this->service->recover($operationId); }
     /** @return array<string,string> */ public function estadoServicios(): array { return $this->gateway->health(); }

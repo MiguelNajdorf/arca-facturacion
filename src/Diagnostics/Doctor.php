@@ -13,7 +13,9 @@ final class Doctor
         $checks = [];
         $checks[] = new Check('Entorno', 'PHP', version_compare(PHP_VERSION, '8.1.0', '>=') ? 'ok' : 'error', PHP_VERSION);
         foreach (['soap', 'openssl', 'json', 'SimpleXML', 'pdo_sqlite', 'sqlite3'] as $extension) { $checks[] = new Check('Entorno', 'Extension ' . $extension, extension_loaded($extension) ? 'ok' : 'error', extension_loaded($extension) ? 'habilitada' : $this->help($extension)); }
-        $checks[] = new Check('Entorno', 'Composer', is_file($this->root . '/vendor/autoload.php') ? 'ok' : 'warning', is_file($this->root . '/vendor/autoload.php') ? 'dependencias instaladas' : 'Ejecuta composer install.');
+        // Solo las usa el PDF con QR: si faltan, facturar sigue funcionando.
+        foreach (['gd', 'mbstring', 'zlib'] as $extension) { $checks[] = new Check('Entorno', 'Extension ' . $extension . ' (PDF)', extension_loaded($extension) ? 'ok' : 'warning', extension_loaded($extension) ? 'habilitada' : $this->help($extension)); }
+        $checks[] = new Check('Entorno', 'Composer', is_file($this->root . '/vendor/autoload.php') ? 'ok' : 'warning', is_file($this->root . '/vendor/autoload.php') ? 'dependencias instaladas' : 'Ejecuta composer install (necesario para generar PDF).');
         try {
             $config = (new ConfigLoader($this->root))->load();
             $checks[] = new Check('Configuracion', 'Archivo y variables', 'ok', 'configuracion valida');
