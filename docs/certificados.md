@@ -3,7 +3,7 @@
 ## Que genera arca_facturacion
 
 ~~~bash
-php bin/arca install
+php vendor/bin/arca install
 ~~~
 
 El asistente crea una clave privada RSA de 2048 bits y una solicitud PKCS#10:
@@ -34,8 +34,8 @@ La clave privada queda solamente en tu computadora. No la subas a ARCA, no la co
 Cuando lo tengas, instala exactamente el archivo descargado:
 
 ~~~bash
-php bin/arca certificado:instalar "C:\ruta\al\certificado.crt"
-php bin/arca instalacion:continuar
+php vendor/bin/arca certificado:instalar "C:\ruta\al\certificado.crt"
+php vendor/bin/arca instalacion:continuar
 ~~~
 
 Documentacion oficial: [certificados de homologacion](https://www.arca.gob.ar/ws/documentacion/certificados.asp), [crear certificado en WSASS](https://www.arca.gob.ar/ws/WSASS/html/crearcertificado.html).
@@ -58,7 +58,7 @@ Los nombres pueden cambiar. Si la pantalla no coincide, no adivines: volve a la 
 ## Instalar
 
 ~~~bash
-php bin/arca certificado:instalar "C:\ruta\al\certificado.crt"
+php vendor/bin/arca certificado:instalar "C:\ruta\al\certificado.crt"
 ~~~
 
 Se comprueba que sea X.509, este vigente y corresponda a la clave privada del ambiente activo. Se aceptan normalmente `.crt`, `.cer` y `.pem`.
@@ -76,7 +76,7 @@ Guias oficiales: [autorizacion en WSASS](https://www.arca.gob.ar/ws/WSASS/html/c
 Despues valida realmente la relacion:
 
 ~~~bash
-php bin/arca doctor --online
+php vendor/bin/arca doctor --online
 ~~~
 
 El progreso solo marca autorizacion y conexion cuando ARCA responde correctamente.
@@ -86,7 +86,7 @@ El progreso solo marca autorizacion y conexion cuando ARCA responde correctament
 El comando normal nunca sobrescribe:
 
 ~~~bash
-php bin/arca certificado:generar
+php vendor/bin/arca certificado:generar
 ~~~
 
 Si ya existe una clave, se detiene. `--force` requiere confirmacion interactiva escribiendo `REGENERAR`; en automatizacion tambien requiere `--yes`. Una clave nueva deja de coincidir con el certificado anterior.

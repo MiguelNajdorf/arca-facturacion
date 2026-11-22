@@ -5,7 +5,7 @@ No cambies solamente `ARCA_ENVIRONMENT`. Produccion necesita credenciales, autor
 ## Preparar el perfil
 
 ~~~bash
-php bin/arca produccion:preparar
+php vendor/bin/arca produccion:preparar
 ~~~
 
 El asistente explica el cambio, pide el punto de venta real y el alias de produccion, y crea:
@@ -32,9 +32,9 @@ La interfaz administrativa puede cambiar. El asistente nombra solo servicios y o
 ## Validar antes de emitir
 
 ~~~bash
-php bin/arca doctor --online
-php bin/arca factura:simular --total=15000
-php bin/arca instalacion:continuar
+php vendor/bin/arca doctor --online
+php vendor/bin/arca factura:simular --total=15000
+php vendor/bin/arca instalacion:continuar
 ~~~
 
 `factura:probar` en produccion crea un comprobante fiscal real y exige escribir `EMITIR`, salvo uso automatizado explicito con `--yes`.
@@ -42,8 +42,8 @@ php bin/arca instalacion:continuar
 ## Cambiar entre perfiles preparados
 
 ~~~bash
-php bin/arca ambiente:cambiar homologacion
-php bin/arca ambiente:cambiar produccion
+php vendor/bin/arca ambiente:cambiar homologacion
+php vendor/bin/arca ambiente:cambiar produccion
 ~~~
 
 El comando copia a `.env` el perfil privado elegido. No mueve ni reemplaza certificados, bases o tickets.

@@ -4,7 +4,7 @@
 
 ~~~bash
 composer install
-php bin/arca install
+php vendor/bin/arca install
 ~~~
 
 El asistente no presupone experiencia con ARCA. Antes de cada pregunta explica que significa el dato, por que se necesita y que resultado se espera.
@@ -45,8 +45,8 @@ Produccion usa las mismas clases de archivo bajo rutas separadas con el nombre `
 Despues de generar el CSR, el asistente se detiene porque debes ingresar a ARCA. Podes cerrar la terminal. Para ver el avance o retomar:
 
 ~~~bash
-php bin/arca instalacion:estado
-php bin/arca instalacion:continuar
+php vendor/bin/arca instalacion:estado
+php vendor/bin/arca instalacion:continuar
 ~~~
 
 `install` tambien detecta una preparacion incompleta, muestra ambiente, ultimos cuatro digitos del CUIT, punto de venta, alias elegido y paso pendiente. No vuelve a generar claves.
@@ -62,12 +62,14 @@ La proteccion tambien existe dentro de los servicios que escriben archivos. `.en
 ## No interactivo
 
 ~~~bash
-php bin/arca install --environment=homologacion --cuit=20123456786 --point-of-sale=1 --alias=mi-sistema
+php vendor/bin/arca install --environment=homologacion --cuit=20123456786 --point-of-sale=1 --alias=mi-sistema
 ~~~
 
 Si el ambiente ya existe, el comando reanuda. Para reemplazar deliberadamente configuracion y claves hacen falta `--reconfigure --yes`. Regenerar solo el par de claves requiere `certificado:generar --force --yes`. Sin esa confirmacion, no se escribe nada.
 
 ## Instalador web
+
+Solo esta disponible si clonaste la libreria en una carpeta aparte. Instalada con Composer queda dentro de `vendor/`, que no se publica: usa la consola (`php vendor/bin/arca install`).
 
 Con `public/` como document root, abri directamente una URL local:
 

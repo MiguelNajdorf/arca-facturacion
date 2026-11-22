@@ -3,8 +3,8 @@
 Caso comun:
 
 ~~~php
-require 'C:/facturacion/arca_facturacion/bootstrap.php';
-$arca = ArcaFacturacion\Arca::desdeEntorno('C:/facturacion/arca_facturacion');
+require __DIR__ . '/vendor/autoload.php';
+$arca = ArcaFacturacion\Arca::desdeEntorno();
 $factura = $arca->facturaC()
     ->consumidorFinal()
     ->conceptoProductos()

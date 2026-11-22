@@ -3,7 +3,9 @@
   "description": "Integracion guiada y segura de facturacion electronica ARCA para PHP.",
   "type": "library",
   "license": "MIT",
-  "keywords": ["arca", "afip", "argentina", "factura-electronica", "wsaa", "wsfe"],
+  "keywords": ["arca", "afip", "argentina", "factura-electronica", "wsaa", "wsfe", "qr", "pdf"],
+  "homepage": "https://github.com/MiguelNajdorf/arca-facturacion",
+  "support": {"issues": "https://github.com/MiguelNajdorf/arca-facturacion/issues", "docs": "https://github.com/MiguelNajdorf/arca-facturacion#readme"},
   "authors": [{"name": "Javier Ghio"}],
   "require": {
     "php": ">=8.1",

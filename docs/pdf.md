@@ -7,7 +7,7 @@ Hay dos formas de cumplirlo:
 - `pdf()`: arma la factura completa en A4, lista para enviar o imprimir.
 - `urlQr()`: te da solo el texto del QR, para que lo imprimas con tu propio diseno.
 
-Las dos funcionan solo con comprobantes **autorizados** (con CAE). Requieren `composer install` y las extensiones `gd`, `mbstring` y `zlib`; `php bin/arca doctor` las revisa.
+Las dos funcionan solo con comprobantes **autorizados** (con CAE). Requieren `composer install` y las extensiones `gd`, `mbstring` y `zlib`; `php vendor/bin/arca doctor` las revisa.
 
 ## PDF completo
 

@@ -4,6 +4,20 @@ Todos los cambios notables se documentan aqui. El proyecto sigue versionado sema
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-22
+
+### Added
+
+- Instalacion con `composer require arca-facturacion/arca-facturacion`. Los datos privados (`.env`, clave, certificados, SQLite) van a la carpeta `arca/` del proyecto, fuera de `vendor/`, y sobreviven a `composer update`.
+- `arca/` se crea con `.gitignore` y `.htaccess` que impiden subirla a git o descargarla desde Apache.
+- Variable de entorno `ARCA_DIR` para guardar los datos en otra carpeta.
+- `doctor` muestra la carpeta de datos en uso.
+
+### Changed
+
+- Los mensajes de la CLI muestran `php vendor/bin/arca` o `php bin/arca` segun como se instalo.
+- La documentacion usa la instalacion con Composer como forma principal; clonar en una carpeta aparte sigue funcionando igual.
+
 ## [0.3.0] - 2026-11-22
 
 ### Added
