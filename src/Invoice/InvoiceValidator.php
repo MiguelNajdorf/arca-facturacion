@@ -21,6 +21,9 @@ final class InvoiceValidator
         if (!$classC && $invoice->vat > 0 && $invoice->vatBreakdown === []) { $errors[] = 'El IVA informado requiere el detalle de alicuotas.'; }
         $vatSum = array_sum(array_map(static fn (array $line): float => (float) $line['amount'], $invoice->vatBreakdown));
         if (abs($vatSum - $invoice->vat) > 0.01) { $errors[] = 'El IVA total no coincide con el detalle de alicuotas.'; }
+        // ARCA rechaza el comprobante si la suma de las bases imponibles no es igual al neto gravado.
+        $baseSum = array_sum(array_map(static fn (array $line): float => (float) $line['base'], $invoice->vatBreakdown));
+        if ($invoice->vatBreakdown !== [] && abs($baseSum - $invoice->net) > 0.01) { $errors[] = sprintf('La suma de las bases de IVA $%.2f no coincide con el neto gravado $%.2f.', $baseSum, $invoice->net); }
         if ($invoice->concept !== 1 && (!$invoice->serviceFrom || !$invoice->serviceTo || !$invoice->paymentDue)) { $errors[] = 'Los servicios requieren periodo y fecha de vencimiento de pago.'; }
         if ($invoice->serviceFrom && $invoice->serviceTo && $invoice->serviceFrom > $invoice->serviceTo) { $errors[] = 'La fecha inicial del servicio no puede ser posterior a la fecha final.'; }
         if (in_array($invoice->voucherType, [3, 8, 13], true) && $invoice->associated === []) { $errors[] = 'La nota de credito requiere al menos un comprobante asociado.'; }

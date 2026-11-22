@@ -19,7 +19,17 @@ final class InvoiceBuilder
     public function conceptoProductosYServicios(string $from, string $to, string $due): self { $copy = $this->conceptoServicios($from, $to, $due); $copy->data['concept'] = 3; return $copy; }
     public function importeTotal(float $amount): self { $copy = $this->with('total', $amount); if ((float) $copy->data['net'] === 0.0) { $copy->data['net'] = $amount; } return $copy; }
     public function netoGravado(float $amount): self { return $this->with('net', $amount); }
-    public function iva21(float $amount): self { $copy = clone $this; $copy->data['vat'] = $amount; $copy->data['vat_breakdown'][] = ['rate' => 21.0, 'base' => (float) $copy->data['net'], 'amount' => $amount]; return $copy; }
+    /** Suma una linea de IVA. Alicuotas WSFE: 0, 2.5, 5, 10.5, 21 y 27. Sin $importe se calcula base * alicuota / 100. */
+    public function iva(float $alicuota, float $base, ?float $importe = null): self
+    {
+        $copy = clone $this;
+        $amount = $importe ?? round($base * $alicuota / 100, 2);
+        $copy->data['vat'] = round((float) $copy->data['vat'] + $amount, 2);
+        $copy->data['vat_breakdown'][] = ['rate' => $alicuota, 'base' => $base, 'amount' => $amount];
+        return $copy;
+    }
+    /** Atajo para una unica alicuota del 21% sobre todo el neto gravado ya informado. */
+    public function iva21(float $amount): self { return $this->iva(21.0, (float) $this->data['net'], $amount); }
     public function importeNoGravado(float $amount): self { return $this->with('untaxed', $amount); }
     public function importeExento(float $amount): self { return $this->with('exempt', $amount); }
     public function tributos(float $amount): self { return $this->with('taxes', $amount); }

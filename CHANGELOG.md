@@ -4,6 +4,16 @@ Todos los cambios notables se documentan aqui. El proyecto sigue versionado sema
 
 ## [Unreleased]
 
+### Added
+
+- `iva(alicuota, base, importe)` en el builder: todas las alicuotas de WSFE (0, 2.5, 5, 10.5, 21 y 27) y varias por comprobante.
+- Validacion local de que la suma de las bases de IVA sea igual al neto gravado.
+
+### Fixed
+
+- Llamar mas de una vez a `iva21()` reemplazaba el IVA total en lugar de sumarlo.
+- El CUIT de ejemplo `30712345678` de la documentacion tenia el digito verificador incorrecto; ahora es `30712345671`.
+
 ## [0.1.0] - 2026-11-22
 
 Primera version publica.

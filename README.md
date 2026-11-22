@@ -166,7 +166,8 @@ El segundo parametro de `emitir()` es **un identificador unico de la venta en tu
 |---|---|---|
 | Factura A / B / C | `facturaA()`, `facturaB()`, `facturaC()` | [examples/04_emitir_factura_b.php](examples/04_emitir_factura_b.php) |
 | Nota de credito A / B / C | `notaCreditoA()`, `notaCreditoB()`, `notaCreditoC()` | [examples/07_nota_credito.php](examples/07_nota_credito.php) |
-| Cliente con CUIT | `->clienteCuit('30712345678')` | [docs/factura-b.md](docs/factura-b.md) |
+| Cliente con CUIT | `->clienteCuit('30712345671')` | [docs/factura-b.md](docs/factura-b.md) |
+| IVA (0, 2,5, 5, 10,5, 21 o 27 %), una o varias alicuotas | `->netoGravado(15000)->iva(21, 10000)->iva(10.5, 5000)` | [docs/factura-b.md](docs/factura-b.md) |
 | Servicios | `->conceptoServicios($desde, $hasta, $vencimiento)` | [docs/factura-c.md](docs/factura-c.md) |
 | Consultar una factura emitida | `$arca->consultarComprobante($tipo, $numero)` | [examples/05_consultar_comprobante.php](examples/05_consultar_comprobante.php) |
 | Ultimo numero emitido | `$arca->ultimoComprobante($tipo)` | [examples/06_ultimo_comprobante.php](examples/06_ultimo_comprobante.php) |
