@@ -125,13 +125,16 @@ final class FacturaPdf
         $condition = $receptor['condicion_iva'] ?? (self::VAT_CONDITIONS[$invoice->receiverVatCondition] ?? 'Código ' . $invoice->receiverVatCondition);
         $y = $p->GetY();
         $p->SetXY(13, $y + 2);
-        $this->labelLines(180, array_values(array_filter([
+        $lines = [
             ['Receptor', $document],
             ['Apellido y nombre / Razón social', $receptor['nombre'] ?? ''],
             ['Condición frente al IVA', $condition],
             ['Domicilio', $receptor['domicilio'] ?? ''],
-            $invoice->currency !== 'PES' ? ['Moneda', sprintf('%s - Cotización: %s', $invoice->currency, rtrim(rtrim(number_format($invoice->exchangeRate, 6, ',', '.'), '0'), ','))] : null,
-        ])));
+        ];
+        if ($invoice->currency !== 'PES') {
+            $lines[] = ['Moneda', sprintf('%s - Cotización: %s', $invoice->currency, rtrim(rtrim(number_format($invoice->exchangeRate, 6, ',', '.'), '0'), ','))];
+        }
+        $this->labelLines(180, $lines);
         $p->Rect(self::LEFT, $y, self::WIDTH, $p->GetY() - $y + 2);
         $p->SetY($p->GetY() + 5);
     }
