@@ -117,7 +117,7 @@ TEXT;
         $environment = (string) ($state['environment'] ?? 'homologacion');
         $action = $interface === self::WEB
             ? "La autenticacion online ya fue comprobada en el paso anterior.\n\nEn el formulario que aparece debajo, indica un importe de prueba y presiona\n\"Simular y finalizar\". La simulacion valida los datos localmente y no envia nada a ARCA.\n\nSi cerras el navegador, volve a esta misma URL para retomar."
-            : "Primero ejecuta: php bin/arca doctor --online\nEl resultado esperado es que WSAA, WSFE y el punto de venta aparezcan como OK.\n\nDespues ejecuta: php bin/arca factura:simular --total=15000\nLa simulacion valida los datos localmente y no envia nada a ARCA.\n\nSi interrumpis el proceso, usa instalacion:continuar.";
+            : "Primero ejecuta: " . \ArcaFacturacion\Support\DataDir::command() . " doctor --online\nEl resultado esperado es que WSAA, WSFE y el punto de venta aparezcan como OK.\n\nDespues ejecuta: " . \ArcaFacturacion\Support\DataDir::command() . " factura:simular --total=15000\nLa simulacion valida los datos localmente y no envia nada a ARCA.\n\nSi interrumpis el proceso, usa instalacion:continuar.";
         return "PASO 5 DE 6 - Validar y simular\n\n{$action}\n\nAmbiente activo: {$environment}.";
     }
     /** @param array<string,mixed> $state */
@@ -129,7 +129,7 @@ TEXT;
             : 'En homologacion la emision sirve para comprobar el recorrido completo sin validez fiscal.';
         return "PASO 6 DE 6 - Primera emision controlada\n\n{$warning}\n\n" .
             "Revisa primero la simulacion y luego ejecuta:\n" .
-            "php bin/arca factura:probar --total=15000\n\n" .
+            "" . \ArcaFacturacion\Support\DataDir::command() . " factura:probar --total=15000\n\n" .
             "El comando vuelve a mostrar el resumen y pide una confirmacion explicita antes de enviar.\n" .
             "El resultado esperado es un estado autorizado con CAE, o un rechazo explicado sin ocultar el siguiente paso.";
     }
@@ -157,8 +157,8 @@ TEXT;
                 "No selecciones la clave privada ni el archivo solicitud.csr.";
         }
         return "PAUSA: este paso ocurre fuera de arca_facturacion. Cuando tengas el certificado, volve a esta consola y ejecuta:\n\n" .
-            "php bin/arca certificado:instalar \"C:\\ruta\\al\\certificado.crt\"\n\n" .
-            "Despues podes continuar con:\n\nphp bin/arca instalacion:continuar";
+            "" . \ArcaFacturacion\Support\DataDir::command() . " certificado:instalar \"C:\\ruta\\al\\certificado.crt\"\n\n" .
+            "Despues podes continuar con:\n\n" . \ArcaFacturacion\Support\DataDir::command() . " instalacion:continuar";
     }
     private function authorizationNextAction(string $interface): string
     {
@@ -166,7 +166,7 @@ TEXT;
             return "Cuando termines, volve a esta pagina y presiona \"Comprobar con ARCA y continuar\".\n\n" .
                 "arca_facturacion intentara autenticarse y solo marcara la autorizacion y la conexion como verificadas si ARCA responde correctamente.";
         }
-        return "Luego volve a la consola y ejecuta: php bin/arca doctor --online\n\n" .
+        return "Luego volve a la consola y ejecuta: " . \ArcaFacturacion\Support\DataDir::command() . " doctor --online\n\n" .
             "doctor intentara autenticarse. Si funciona, arca_facturacion marcara automaticamente la\n" .
             "autorizacion y la conexion como verificadas. No hace falta marcar nada a mano.";
     }

@@ -16,7 +16,7 @@ final class ConfigLoader
             return $environment !== false ? $environment : ($values[$key] ?? $default);
         };
         foreach (['ARCA_CUIT', 'ARCA_POINT_OF_SALE', 'ARCA_CERT_PATH', 'ARCA_KEY_PATH'] as $key) {
-            if (trim((string) $get($key, '')) === '') { throw new ConfigurationException("Falta {$key}. Ejecuta: php bin/arca install"); }
+            if (trim((string) $get($key, '')) === '') { throw new ConfigurationException("Falta {$key}. Ejecuta: " . \ArcaFacturacion\Support\DataDir::command() . " install"); }
         }
         return new ArcaConfig(
             strtolower((string) $get('ARCA_ENVIRONMENT', 'homologacion')),

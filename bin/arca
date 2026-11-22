@@ -2,4 +2,6 @@
 <?php
 declare(strict_types=1);
 require dirname(__DIR__) . '/bootstrap.php';
-exit((new ArcaFacturacion\Console\Application(dirname(__DIR__)))->run($argv));
+$dataDir = ArcaFacturacion\Support\DataDir::resolve();
+ArcaFacturacion\Support\DataDir::prepare($dataDir);
+exit((new ArcaFacturacion\Console\Application($dataDir))->run($argv));

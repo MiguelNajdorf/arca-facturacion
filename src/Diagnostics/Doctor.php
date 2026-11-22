@@ -15,7 +15,9 @@ final class Doctor
         foreach (['soap', 'openssl', 'json', 'SimpleXML', 'pdo_sqlite', 'sqlite3'] as $extension) { $checks[] = new Check('Entorno', 'Extension ' . $extension, extension_loaded($extension) ? 'ok' : 'error', extension_loaded($extension) ? 'habilitada' : $this->help($extension)); }
         // Solo las usa el PDF con QR: si faltan, facturar sigue funcionando.
         foreach (['gd', 'mbstring', 'zlib'] as $extension) { $checks[] = new Check('Entorno', 'Extension ' . $extension . ' (PDF)', extension_loaded($extension) ? 'ok' : 'warning', extension_loaded($extension) ? 'habilitada' : $this->help($extension)); }
-        $checks[] = new Check('Entorno', 'Composer', is_file($this->root . '/vendor/autoload.php') ? 'ok' : 'warning', is_file($this->root . '/vendor/autoload.php') ? 'dependencias instaladas' : 'Ejecuta composer install (necesario para generar PDF).');
+        $pdfLibraries = class_exists(\FPDF::class) && class_exists(\chillerlan\QRCode\QRCode::class);
+        $checks[] = new Check('Entorno', 'Librerias del PDF', $pdfLibraries ? 'ok' : 'warning', $pdfLibraries ? 'instaladas' : 'Ejecuta composer install (necesario para generar PDF).');
+        $checks[] = new Check('Entorno', 'Carpeta de datos', 'ok', $this->root);
         try {
             $config = (new ConfigLoader($this->root))->load();
             $checks[] = new Check('Configuracion', 'Archivo y variables', 'ok', 'configuracion valida');

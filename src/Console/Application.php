@@ -38,7 +38,7 @@ final class Application
             };
         } catch (ArcaFacturacionException $error) {
             fwrite(STDERR, '[ERROR] ' . $error->mensajeHumano() . PHP_EOL);
-            fwrite(STDERR, "Siguiente paso sugerido: php bin/arca instalacion:estado\n");
+            fwrite(STDERR, "Siguiente paso sugerido: " . \ArcaFacturacion\Support\DataDir::command() . " instalacion:estado\n");
             if (isset($options['debug']) && $error->detalleTecnico()) { fwrite(STDERR, '[DETALLE] ' . $error->detalleTecnico() . PHP_EOL); }
             return 2;
         } catch (Throwable $error) {
@@ -50,7 +50,7 @@ final class Application
     private function help(): int
     {
         echo "arca_facturacion - Facturacion electronica ARCA guiada para PHP\n\n";
-        echo "Uso: php bin/arca <comando> [opciones]\n\n";
+        echo "Uso: " . \ArcaFacturacion\Support\DataDir::command() . " <comando> [opciones]\n\n";
         echo "  install                         Inicia o retoma la instalacion guiada\n";
         echo "  instalacion:estado              Muestra lo completado y el proximo paso\n";
         echo "  instalacion:continuar           Retoma automaticamente el paso pendiente\n";
@@ -79,7 +79,7 @@ final class Application
             return $this->showCurrentStep($existing, $stateStore);
         }
         $this->banner('Asistente de instalacion');
-        echo "Vamos a preparar la integracion paso a paso. Podes cerrar la consola en cualquier pausa\ny retomar con: php bin/arca instalacion:continuar\n\n";
+        echo "Vamos a preparar la integracion paso a paso. Podes cerrar la consola en cualquier pausa\ny retomar con: " . \ArcaFacturacion\Support\DataDir::command() . " instalacion:continuar\n\n";
         $this->showEnvironmentChecks();
         $guide = new InstallationGuide();
         echo "\n" . $guide->environmentExplanation() . "\n\n";
@@ -118,7 +118,7 @@ final class Application
         $store = (new Installer($this->root))->state();
         $environment = isset($options['environment']) ? $this->normalizeEnvironment((string) $options['environment']) : $store->activeEnvironment();
         $state = $store->environment($environment);
-        if ($state === null) { echo "Todavia no hay una instalacion preparada. Comenza con: php bin/arca install\n"; return 1; }
+        if ($state === null) { echo "Todavia no hay una instalacion preparada. Comenza con: " . \ArcaFacturacion\Support\DataDir::command() . " install\n"; return 1; }
         $this->banner('Estado de instalacion');
         $this->resumeSummary($state, $store);
         return $this->showProgress($store, (string) $state['environment']);
@@ -159,7 +159,7 @@ final class Application
             if (!$confirmed) { echo "Produccion no fue modificada.\n"; return 1; }
         }
         $result = $installer->configure(['environment' => 'produccion', 'cuit' => $cuit, 'point_of_sale' => $point, 'alias' => $alias], true, $existing !== null ? Installer::RECONFIGURE_CONFIRMATION : null, false);
-        echo "[OK] Homologacion y su .env activo permanecen intactos.\n[OK] Perfil de produccion: {$result['profile']}\n[OK] Clave de produccion: {$result['key']}\n[OK] CSR de produccion: {$result['csr']}\n\nActiva produccion solo cuando corresponda: php bin/arca ambiente:cambiar produccion\n\n";
+        echo "[OK] Homologacion y su .env activo permanecen intactos.\n[OK] Perfil de produccion: {$result['profile']}\n[OK] Clave de produccion: {$result['key']}\n[OK] CSR de produccion: {$result['csr']}\n\nActiva produccion solo cuando corresponda: " . \ArcaFacturacion\Support\DataDir::command() . " ambiente:cambiar produccion\n\n";
         $state = $store->environment('produccion') ?? [];
         $this->showProgress($store, 'produccion');
         echo "\n" . (new InstallationGuide())->certificateInstructions($state) . "\n";
@@ -172,7 +172,7 @@ final class Application
         $environment = $this->normalizeEnvironment((string) $options['_0']);
         (new Installer($this->root))->activateEnvironment($environment);
         echo "[OK] Ambiente activo: {$environment}. Se cargo su perfil sin modificar el otro ambiente.\n";
-        echo "Continua con: php bin/arca instalacion:continuar\n";
+        echo "Continua con: " . \ArcaFacturacion\Support\DataDir::command() . " instalacion:continuar\n";
         return 0;
     }
     private function doctor(bool $online, bool $json): int
@@ -189,7 +189,7 @@ final class Application
         } else {
             echo "\nResultado\n" . ($report->ready() ? 'La instalacion esta lista para continuar.' : 'Hay pasos pendientes. El mensaje de cada control indica como resolverlos.') . PHP_EOL;
         }
-        if ($online && $report->ready()) { echo "[OK] Autorizacion WSFE y conexion registradas en el progreso.\nSiguiente paso: php bin/arca factura:simular --total=15000\n"; }
+        if ($online && $report->ready()) { echo "[OK] Autorizacion WSFE y conexion registradas en el progreso.\nSiguiente paso: " . \ArcaFacturacion\Support\DataDir::command() . " factura:simular --total=15000\n"; }
         return $report->exitCode();
     }
     /** @param array<string,string|bool> $options */
@@ -239,7 +239,7 @@ final class Application
         $summary = $arca->simular($arca->facturaC()->consumidorFinal()->conceptoProductos()->importeTotal($total), isset($options['advanced']));
         (new Installer($this->root))->markSimulation();
         echo json_encode($summary, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . PHP_EOL;
-        echo "\n[OK] Primera simulacion registrada. No se envio ninguna solicitud a ARCA.\nSiguiente paso: php bin/arca instalacion:continuar\n";
+        echo "\n[OK] Primera simulacion registrada. No se envio ninguna solicitud a ARCA.\nSiguiente paso: " . \ArcaFacturacion\Support\DataDir::command() . " instalacion:continuar\n";
         return 0;
     }
     /** @param array<string,string|bool> $options */

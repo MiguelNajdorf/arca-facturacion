@@ -16,13 +16,14 @@ use ArcaFacturacion\Pdf\FacturaPdf;
 use ArcaFacturacion\Pdf\QrArca;
 use ArcaFacturacion\Receipt\ReceiptRepository;
 use ArcaFacturacion\Receipt\SQLiteReceiptRepository;
+use ArcaFacturacion\Support\DataDir;
 use ArcaFacturacion\Support\Logger;
 final class Arca
 {
     private function __construct(private readonly ArcaConfig $config, private readonly ArcaGateway $gateway, private readonly InvoiceService $service) {}
     public static function desdeEntorno(?string $projectRoot = null): self
     {
-        $root = $projectRoot ?? dirname(__DIR__);
+        $root = $projectRoot ?? DataDir::resolve();
         $config = (new ConfigLoader($root))->load();
         $gateway = new SoapArcaGateway($config, new WsaaClient($config), new RequestMapper());
         $repository = new SQLiteReceiptRepository($config->databasePath());
