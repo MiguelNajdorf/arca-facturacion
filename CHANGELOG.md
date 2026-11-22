@@ -4,6 +4,8 @@ Todos los cambios notables se documentan aqui. El proyecto sigue versionado sema
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-22
+
 ### Added
 
 - `iva(alicuota, base, importe)` en el builder: todas las alicuotas de WSFE (0, 2.5, 5, 10.5, 21 y 27) y varias por comprobante.
