@@ -24,6 +24,14 @@ No. SQLite almacena datos operativos resumidos, nunca claves, certificados, tick
 
 No. Devuelve los datos autorizados para que tu sistema genere la representacion que corresponda.
 
+## Que no incluye todavia?
+
+- PDF y QR de la factura impresa.
+- CAEA (CAE anticipado).
+- Regimenes especiales fuera de WSFEv1, como exportacion o bonos fiscales.
+- Libro IVA y contabilidad.
+- Decidir automaticamente que comprobante o alicuota corresponde.
+
 ## Es software oficial?
 
 No. Es un proyecto independiente, gratuito y abierto.
