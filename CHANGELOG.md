@@ -4,6 +4,8 @@ Todos los cambios notables se documentan aqui. El proyecto sigue versionado sema
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-22
+
 ### Added
 
 - `$arca->pdf()`: factura A4 con letra y codigo, emisor, receptor, items, totales, CAE y el QR obligatorio de ARCA.
